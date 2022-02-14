@@ -64,7 +64,7 @@ public class Ejercicio36 {
 			}
 		}
 
-//		Dirección aizquierda recto
+//		Dirección a izquierda recto
 		for (int i = coordenadaX - 1; i >= 0; i--) {
 //			Si se encuentra con una figura que no hace jaque
 			if (tablero[coordenadaY][i] < 0 || tablero[coordenadaY][i] == PB || tablero[coordenadaY][i] == CB
@@ -84,7 +84,6 @@ public class Ejercicio36 {
 				return jaque = true;
 			}
 		}
-		
 
 //		diagonal derecha hacia lado blanco
 		for (int i = coordenadaY - 1; i >= 0; i--) {
@@ -100,7 +99,7 @@ public class Ejercicio36 {
 			}
 		}
 		difX = 1;
-		
+
 //		diagonal izquierda hacia lado blanco
 		for (int i = coordenadaY - 1; i >= 0; i--) {
 			if ((coordenadaX - difX) >= 0) {
@@ -115,9 +114,7 @@ public class Ejercicio36 {
 			}
 		}
 		difX = 1;
-		
 
-		
 //		diagonal derecha hacia lado negro
 		for (int i = coordenadaY + 1; i >= 0; i++) {
 			if ((coordenadaX + difX) <= 7) {
@@ -132,7 +129,7 @@ public class Ejercicio36 {
 			}
 		}
 		difX = 1;
-		
+
 //		diagonal izquierda hacia lado negro
 		for (int i = coordenadaY + 1; i >= 0; i++) {
 			if ((coordenadaX - difX) >= 0) {
@@ -147,10 +144,27 @@ public class Ejercicio36 {
 			}
 		}
 		difX = 1;
+
+//		saltos caballo
 		
+		if (coordenadaY - 2 >= 0 && coordenadaX - 1 >= 0 && tablero[coordenadaY - 2][coordenadaX - 1] == CB
+				|| coordenadaY - 2 >= 0 && coordenadaX + 1 <= 7 && tablero[coordenadaY - 2][coordenadaX + 1] == CB
+				|| coordenadaY - 1 >= 0 && coordenadaX - 2 >= 0 && tablero[coordenadaY - 1][coordenadaX - 2] == CB
+				|| coordenadaY + 1 <= 7 && coordenadaX - 2 >= 0 && tablero[coordenadaY + 1][coordenadaX - 2] == CB
+				|| coordenadaY + 2 <= 7 && coordenadaX - 1 >= 0 && tablero[coordenadaY + 2][coordenadaX - 1] == CB
+				|| coordenadaY + 2 <= 7 && coordenadaX + 1 <= 7 && tablero[coordenadaY + 2][coordenadaX + 1] == CB
+				|| coordenadaY + 1 <= 7 && coordenadaX + 2 <= 7 && tablero[coordenadaY + 1][coordenadaX + 2] == CB
+				|| coordenadaY - 1 >= 0 && coordenadaX + 2 <= 7 && tablero[coordenadaY - 1][coordenadaX + 2] == CB) {
 
-
+			return jaque = true;
+		}
+		
 		return jaque;
+	}
+	
+	
+	public static void main(String args[]) {
+		
 	}
 
 }
