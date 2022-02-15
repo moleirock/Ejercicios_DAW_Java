@@ -116,13 +116,13 @@ public class Ejercicio36 {
 		difX = 1;
 
 //		diagonal derecha hacia lado negro
-		for (int i = coordenadaY + 1; i >= 0; i++) {
+		for (int i = coordenadaY + 1; i <= 7; i++) {
 			if ((coordenadaX + difX) <= 7) {
 				if (tablero[i][coordenadaX + difX] < 0 || tablero[i][coordenadaX + difX] == TB
-						|| tablero[i][coordenadaX + difX] == CB || tablero[i][coordenadaX + difX] == RB) {
+						|| tablero[i][coordenadaX + difX] == CB || tablero[i][coordenadaX + difX] == RB
+						|| (tablero[i][coordenadaX + difX] == PB)) {
 					break;
-				} else if (tablero[i][coordenadaX + difX] == AB || tablero[i][coordenadaX + difX] == DB
-						|| (tablero[i][coordenadaX + difX] == PB && difX < 2)) {
+				} else if (tablero[i][coordenadaX + difX] == AB || tablero[i][coordenadaX + difX] == DB) {
 					return jaque = true;
 				}
 				difX++;
@@ -131,13 +131,13 @@ public class Ejercicio36 {
 		difX = 1;
 
 //		diagonal izquierda hacia lado negro
-		for (int i = coordenadaY + 1; i >= 0; i++) {
+		for (int i = coordenadaY + 1; i <= 7; i++) {
 			if ((coordenadaX - difX) >= 0) {
 				if (tablero[i][coordenadaX - difX] < 0 || tablero[i][coordenadaX - difX] == TB
-						|| tablero[i][coordenadaX - difX] == CB || tablero[i][coordenadaX - difX] == RB) {
+						|| tablero[i][coordenadaX - difX] == CB || tablero[i][coordenadaX - difX] == RB
+						|| tablero[i][coordenadaX - difX] == PB) {
 					break;
-				} else if (tablero[i][coordenadaX - difX] == AB || tablero[i][coordenadaX - difX] == DB
-						|| (tablero[i][coordenadaX - difX] == PB && difX < 2)) {
+				} else if (tablero[i][coordenadaX - difX] == AB || tablero[i][coordenadaX - difX] == DB) {
 					return jaque = true;
 				}
 				difX++;
@@ -147,7 +147,7 @@ public class Ejercicio36 {
 
 //		saltos caballo
 		
-		if (coordenadaY - 2 >= 0 && coordenadaX - 1 >= 0 && tablero[coordenadaY - 2][coordenadaX - 1] == CB
+		if (	   coordenadaY - 2 >= 0 && coordenadaX - 1 >= 0 && tablero[coordenadaY - 2][coordenadaX - 1] == CB
 				|| coordenadaY - 2 >= 0 && coordenadaX + 1 <= 7 && tablero[coordenadaY - 2][coordenadaX + 1] == CB
 				|| coordenadaY - 1 >= 0 && coordenadaX - 2 >= 0 && tablero[coordenadaY - 1][coordenadaX - 2] == CB
 				|| coordenadaY + 1 <= 7 && coordenadaX - 2 >= 0 && tablero[coordenadaY + 1][coordenadaX - 2] == CB
@@ -164,6 +164,18 @@ public class Ejercicio36 {
 	
 	
 	public static void main(String args[]) {
+		Ejercicio36 juego=new Ejercicio36();
+		
+		int[][] tablero=new int[8][8];
+		for (int i=0;i<8;i++) {
+			for(int j=0;j<8;j++) {
+				tablero [i][j]=0;
+			}
+		}
+		tablero[0][1]=-5;
+		tablero[7][1]=2;
+		
+		System.out.println(juego.getJaque(tablero));
 		
 	}
 
