@@ -159,6 +159,16 @@ public class Ejercicio36 {
 			return jaque = true;
 		}
 		
+//		for(int i=-2;i<=2;i++) {
+//			difX=coordenadaX+i;
+//			difY=(int) ((Math.sqrt(5-Math.pow((difX-coordenadaX), 2)))+coordenadaY);
+//			if(i!=0 &&
+//					coordenadaY - difY >= 0 && coordenadaX - difX >= 0 && tablero[coordenadaY - difY][coordenadaX - difX] == CB
+//					||coordenadaY - 2 >= 0 && coordenadaX + 1 <= 7 && tablero[coordenadaY - 2][coordenadaX + 1] == CB) {
+//				
+//			}
+//		}
+		
 		return jaque;
 	}
 	
@@ -167,13 +177,9 @@ public class Ejercicio36 {
 		Ejercicio36 juego=new Ejercicio36();
 		
 		int[][] tablero=new int[8][8];
-		for (int i=0;i<8;i++) {
-			for(int j=0;j<8;j++) {
-				tablero [i][j]=0;
-			}
-		}
-		tablero[0][1]=-5;
-		tablero[7][1]=2;
+
+		tablero[2][2]=-5;
+		tablero[5][5]=2;
 		
 		System.out.println(juego.getJaque(tablero));
 		
