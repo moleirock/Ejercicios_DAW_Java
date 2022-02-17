@@ -174,13 +174,13 @@ public class Ejercicio36 {
 			difXN = (int) (-(Math.sqrt(5 - Math.pow((difY - coordenadaY), 2))) + coordenadaX);
 
 //			cada condicion representa una mitad de la circunferencia( se evalúa que la casilla este dentro del tablero)
-			if (i < 0 && difY >= 0 && difXN >= 0 && tablero[difY][difXN] == CB
-					|| difY >= 0 && difX <= 7 && tablero[difY][difX] == CB) {
+			if (i < 0 && (difY >= 0 && difXN >= 0 && tablero[difY][difXN] == CB
+					|| difY >= 0 && difX <= 7 && tablero[difY][difX] == CB)) {
 				return jaque = true;
 
 			}
-			if (i > 0 && difY <= 7 && difXN >= 0 && tablero[difY][difXN] == CB
-					|| difY <= 7 && difX <= 7 && tablero[difY][difX] == CB) {
+			if (i > 0 && (difY <= 7 && difXN >= 0 && tablero[difY][difXN] == CB
+					|| difY <= 7 && difX <= 7 && tablero[difY][difX] == CB)) {
 				return jaque = true;
 
 			}
@@ -200,9 +200,9 @@ public class Ejercicio36 {
 		System.out.println("\t\t\t¿Está en jaque nuestro amado rey negro?");
 		System.out.println("---------------------------------------------------------------------------------------");
 		System.out.println("Coloca las figuras en nuestro tablero virtual, para ello debes de indicar las coordenadas\n"
-				+ "donde están colocadas y que figura está colocada en dicha coordenada. Para ello toma como\n"
-				+ "origen de coordenadas(0,0) la casilla dónde coloca el jugador blanco su torre del lado\n"
-				+ "derecho, al principio de la partida.\n\n"
+				+ "donde están colocadas y que figura está colocada en dicha coordenada.\n\n"
+				+ "Para ello toma como origen de coordenadas(0,0) la casilla dónde coloca el jugador blanco,al principio \n"
+				+ "de la partida, su torre del lado derecho.\n\n"
 				+ "Indícame con valores de que figura se trata, ayúdate de esta tabla para identificar la \n"
 				+ "figura. ¡No te olvides de incluir al rey negro!\n\n" + "Peón Blanco = 1\n" + "Torre Blanca = 2\n"
 				+ "Caballo Blanco = 3\n" + "Alfil Blanco = 4\r\n" + "Rey Blanco = 5\n" + "Dama Blanca = 6\n"
@@ -227,6 +227,17 @@ public class Ejercicio36 {
 				System.out.println("No es un valor válido, introducelo de nuevo");
 				tablero[y][x] = sc.nextInt();
 			}
+			System.out.println("\nEl tablero queda así.\n");
+			System.out.println("---------------------------------\n\t    Lado Blanco\n---------------------------------");
+			for (int i = 0; i < 8; i++) {
+				System.out.print("| ");
+				for (int j = 0; j < 8; j++) {
+					System.out.print(tablero[i][j] + " | ");
+				}
+
+				System.out.println("\n---------------------------------");
+			}
+	System.out.println("\t    Lado Negro\n---------------------------------\n");
 			System.out.println("¿Quieres añadir una nueva figura? Responde sí o no.");
 			confirmacion = sc.next();
 			while (!confirmacion.equalsIgnoreCase("sí") && !confirmacion.equalsIgnoreCase("no")) {
@@ -234,17 +245,7 @@ public class Ejercicio36 {
 				confirmacion = sc.next();
 			}
 		}
-		System.out.println("\nEl tablero queda así.\n");
-		System.out.println("---------------------------------\n\t    Lado Blanco\n---------------------------------");
-		for (int i = 0; i < 8; i++) {
-			System.out.print("| ");
-			for (int j = 0; j < 8; j++) {
-				System.out.print(tablero[i][j] + " | ");
-			}
-
-			System.out.println("\n---------------------------------");
-		}
-System.out.println("\t    Lado Negro\n---------------------------------\n");
+		
 
 		System.out.println(juego.getJaque(tablero) ? "¡Nuestro rey está amenazado, haz algo para evitar el jaque!"
 				: "¡Nuestro rey está seguro, larga vida al rey!");
