@@ -38,7 +38,7 @@ public class Ejercicio37 {
 	Ejercicio37() {
 
 	}
-
+// considerar que se pueden comer figuras blancas
 	public boolean getJaqueMate(int[][] array) {
 		tablero = array;
 		tableroCambiado = array;
@@ -59,12 +59,12 @@ public class Ejercicio37 {
 					}
 				}
 			}
-// Buscamos una casilla adyacente vacía y comprobamos si moviendonos a ella seguimos en jaque
+
 
 			for (int i = -1; i <= 1; i++) {
 				for (int j = -1; j <= 1; j++) {
 					if (coordenadaY + i >= 0 && coordenadaX + j >= 0 && coordenadaY + i <= 7 && coordenadaX + j <= 7
-							&& tablero[coordenadaY + i][coordenadaX + j] == 0) {
+							&& tablero[coordenadaY + i][coordenadaX + j] >= 0) {
 
 						tableroCambiado[coordenadaY][coordenadaX] = 0;
 						tableroCambiado[coordenadaY + i][coordenadaX + j] = -5;
