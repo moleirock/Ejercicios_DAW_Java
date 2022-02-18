@@ -1,5 +1,6 @@
 package boletin_6;
 
+import boletin_6.Ejercicio37;
 import java.util.*;
 
 //36. DUF que toma una tabla bidimensional de enteros, representando un tablero de ajedrez.
@@ -101,7 +102,8 @@ public class Ejercicio36 {
 			if ((coordenadaX + difX) <= 7) {
 //				Si se encuentra con una figura que no hace jaque
 				if (tablero[i][coordenadaX + difX] < 0 || tablero[i][coordenadaX + difX] == TB
-						|| tablero[i][coordenadaX + difX] == CB || tablero[i][coordenadaX + difX] == RB) {
+						|| tablero[i][coordenadaX + difX] == CB || tablero[i][coordenadaX + difX] == RB
+						|| (tablero[i][coordenadaX + difX] == PB && difX > 2)) {
 					break;
 //					Si se encuentra con una figura que hace jaque
 				} else if (tablero[i][coordenadaX + difX] == AB || tablero[i][coordenadaX + difX] == DB
@@ -118,7 +120,8 @@ public class Ejercicio36 {
 			if ((coordenadaX - difX) >= 0) {
 //				Si se encuentra con una figura que no hace jaque
 				if (tablero[i][coordenadaX - difX] < 0 || tablero[i][coordenadaX - difX] == TB
-						|| tablero[i][coordenadaX - difX] == CB || tablero[i][coordenadaX - difX] == RB) {
+						|| tablero[i][coordenadaX - difX] == CB || tablero[i][coordenadaX - difX] == RB
+						|| (tablero[i][coordenadaX - difX] == PB && difX > 2)) {
 					break;
 //					Si se encuentra con una figura que hace jaque
 				} else if (tablero[i][coordenadaX - difX] == AB || tablero[i][coordenadaX - difX] == DB
@@ -136,7 +139,7 @@ public class Ejercicio36 {
 //				Si se encuentra con una figura que no hace jaque
 				if (tablero[i][coordenadaX + difX] < 0 || tablero[i][coordenadaX + difX] == TB
 						|| tablero[i][coordenadaX + difX] == CB || tablero[i][coordenadaX + difX] == RB
-						|| (tablero[i][coordenadaX + difX] == PB)) {
+						|| tablero[i][coordenadaX + difX] == PB) {
 					break;
 //					Si se encuentra con una figura que hace jaque
 				} else if (tablero[i][coordenadaX + difX] == AB || tablero[i][coordenadaX + difX] == DB) {
@@ -191,6 +194,11 @@ public class Ejercicio36 {
 
 	public static void main(String args[]) {
 		Ejercicio36 juego = new Ejercicio36();
+
+//		Añadiendo posición y figura que hace jaque
+		Ejercicio37 mate = new Ejercicio37();
+		int[] figuraAtacante = new int[3];
+
 		Scanner sc = new Scanner(System.in);
 		int y = 1;
 		int x = 1;
@@ -228,7 +236,8 @@ public class Ejercicio36 {
 				tablero[y][x] = sc.nextInt();
 			}
 			System.out.println("\nEl tablero queda así.\n");
-			System.out.println("---------------------------------\n\t    Lado Blanco\n---------------------------------");
+			System.out
+					.println("---------------------------------\n\t    Lado Blanco\n---------------------------------");
 			for (int i = 0; i < 8; i++) {
 				System.out.print("| ");
 				for (int j = 0; j < 8; j++) {
@@ -237,7 +246,7 @@ public class Ejercicio36 {
 
 				System.out.println("\n---------------------------------");
 			}
-	System.out.println("\t    Lado Negro\n---------------------------------\n");
+			System.out.println("\t    Lado Negro\n---------------------------------\n");
 			System.out.println("¿Quieres añadir una nueva figura? Responde sí o no.");
 			confirmacion = sc.next();
 			while (!confirmacion.equalsIgnoreCase("sí") && !confirmacion.equalsIgnoreCase("no")) {
@@ -245,9 +254,10 @@ public class Ejercicio36 {
 				confirmacion = sc.next();
 			}
 		}
-		
-
-		System.out.println(juego.getJaque(tablero) ? "¡Nuestro rey está amenazado, haz algo para evitar el jaque!"
+		figuraAtacante = mate.getJaqueFigura(tablero);
+		System.out.println(juego.getJaque(tablero)
+				? "¡Nuestro rey está amenazado, haz algo para evitar el jaque!" + "la figura es " + figuraAtacante[0]
+						+ " y está en la posición " + figuraAtacante[1] + "," + figuraAtacante[2]
 				: "¡Nuestro rey está seguro, larga vida al rey!");
 		sc.close();
 	}
