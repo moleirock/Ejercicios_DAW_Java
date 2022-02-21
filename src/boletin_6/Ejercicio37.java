@@ -18,12 +18,13 @@ public class Ejercicio37 {
 	private final int DN = -6;
 
 	/* Variables de jugada */
+	private boolean movimiento = false;
 	private boolean jaqueMate = true;
 	private int[][] tablero = new int[8][8];
 	private int[][] tableroCambiado = new int[8][8];
 
+//  Variables para calcular la posición y el tipo de la figura atacante.
 	private int[] atacante = new int[3];
-	Ejercicio37 figura = new Ejercicio37();
 
 //  Coordenadas del rey negro
 	private int coordenadaY;
@@ -38,7 +39,8 @@ public class Ejercicio37 {
 	Ejercicio37() {
 
 	}
-// considerar que se pueden comer figuras blancas
+
+
 	public boolean getJaqueMate(int[][] array) {
 		tablero = array;
 		tableroCambiado = array;
@@ -47,9 +49,9 @@ public class Ejercicio37 {
 		if (jaque.getJaque(tablero)) {
 
 //			Guardar figura y posicíon del atacante, [figura,y,x]
-			atacante = figura.getJaqueFigura(array);
+			atacante = this.getJaqueFigura(array);
 
-//		Encontrar al rey
+//			Encontrar al rey
 			for (int i = 0; i < 8; i++) {
 				for (int j = 0; j < 8; j++) {
 					if (tablero[i][j] == RN) {
@@ -60,31 +62,336 @@ public class Ejercicio37 {
 				}
 			}
 
-
+// 			Recorro las casillas adyacentes al rey. Evitar jaque por desplazamiento.
 			for (int i = -1; i <= 1; i++) {
 				for (int j = -1; j <= 1; j++) {
+//					Si hay una casilla vacía o ocupada por una figura enemiga compruebo si desplazando el rey a esa casilla seguiría en jaque.
 					if (coordenadaY + i >= 0 && coordenadaX + j >= 0 && coordenadaY + i <= 7 && coordenadaX + j <= 7
 							&& tablero[coordenadaY + i][coordenadaX + j] >= 0) {
-
+//						Apoyándome de una copia del tablero realizo el movimiento del rey y compruebo si hay jaque, si es así entonces no hay jaque mate.
 						tableroCambiado[coordenadaY][coordenadaX] = 0;
 						tableroCambiado[coordenadaY + i][coordenadaX + j] = -5;
-
-						if (!jaque.getJaque(tableroCambiado)) {
+						
+						if (!jaque.getJaqueConRey(tableroCambiado)) {	
 							return jaqueMate = false;
-
+							
 						}
-						tableroCambiado = tablero;
+//						Reinicio el tableroCambiado para poder recrear más movimientos en las siguientes iteraciones.(NO SE REINICIA POR ALGUNA RAZÓN)
+						tableroCambiado[coordenadaY][coordenadaX] = -5;
+						tableroCambiado[coordenadaY + i][coordenadaX + j] = -0;
+						
+//						tableroCambiado = tablero;
 
 					}
 				}
 			}
+			
+//			Sabiendo que figura hace jaque recorremos el array hasta encontarnos con ella y buscamos si alguna de nuestras figuras se puede mover a esta esas casillas para aevitar el jaque.
+//			Si al menos una de las coordenadas es igual a las del atacante entonces el movimiento es en líneae recta.
+
+//			Atacante situado encima en línea recta.
+			if (coordenadaX == atacante[2] && coordenadaY > atacante[1]) {
+				for (int i = coordenadaY - 1; i >= atacante[1]; i--) {
+					
+					if (this.getMovimiento(tablero, i, coordenadaX)) {
+						return jaqueMate = false;
+					}
+				}
+
+			}
+//			Atacante situado debajo en línea recta.
+			if (coordenadaX == atacante[2] && coordenadaY < atacante[1]) {
+				for (int i = coordenadaY + 1; i <= atacante[1]; i++) {
+					
+					if (this.getMovimiento(tablero, i, coordenadaX)) {
+						return jaqueMate = false;
+					}
+				}
+
+			}
+//			Atacante situado izquierda en línea recta.
+			if (coordenadaY == atacante[1] && coordenadaX > atacante[2]) {
+				for (int i = coordenadaX - 1; i >= atacante[1]; i--) {
+
+					if (this.getMovimiento(tablero, coordenadaY, i)) {
+						return jaqueMate = false;
+					}
+				}
+
+			}
+//			Atacante situado derecha en línea recta.
+			if (coordenadaY == atacante[1] && coordenadaX < atacante[1]) {
+				for (int i = coordenadaX + 1; i <= atacante[2]; i++) {
+
+					if (this.getMovimiento(tablero, coordenadaY, i)) {
+						return jaqueMate = false;
+					}
+				}
+
+			}
+//			Atacante situado en una diagonal derecha por encima del rey.
+			if (coordenadaY > atacante[1] && coordenadaX < atacante[2]
+					&& (atacante[0] == AB || atacante[0] == DB || atacante[0] == PB)) {
+				for (int i = coordenadaY - 1; i >= atacante[1]; i--) {
+					if (coordenadaX + difX <= 7 && this.getMovimiento(tablero, i, coordenadaX + difX)) {
+						return jaqueMate = false;
+					}
+					difX++;
+				}
+			}
+			difX = 1;
+//			Atacante situado en una diagonal izquierda por encima del rey.
+			if (coordenadaY > atacante[1] && coordenadaX > atacante[2]
+					&& (atacante[0] == AB || atacante[0] == DB || atacante[0] == PB)) {
+				for (int i = coordenadaY - 1; i >= atacante[1]; i--) {
+					if (coordenadaX - difX >= 0 && this.getMovimiento(tablero, i, coordenadaX - difX)) {
+						return jaqueMate = false;
+					}
+					difX++;
+				}
+			}
+			difX = 1;
+//			Atacante situado en una diagonal derecha por debajo del rey.
+			if (coordenadaY < atacante[1] && coordenadaX < atacante[2] && (atacante[0] == AB || atacante[0] == DB)) {
+				for (int i = coordenadaY + 1; i <= atacante[1]; i++) {
+					if (coordenadaX + difX <= 7 && this.getMovimiento(tablero, i, coordenadaX + difX)) {
+						return jaqueMate = false;
+					}
+					difX++;
+				}
+			}
+			difX = 1;
+//			Atacante situado en una diagonal izquierda por debajo del rey.
+			if (coordenadaY < atacante[1] && coordenadaX > atacante[2] && (atacante[0] == AB || atacante[0] == DB)) {
+				for (int i = coordenadaY + 1; i <= atacante[1]; i++) {
+					if (coordenadaX - difX >= 0 && this.getMovimiento(tablero, i, coordenadaX - difX)) {
+						return jaqueMate = false;
+					}
+					difX++;
+				}
+			}
+			difX = 1;
+
+			if (atacante[0] == CB && this.getMovimiento(tablero, atacante[1], atacante[2])) {
+				return jaqueMate = false;
+			}
 
 		}
-		return jaqueMate;
+		return jaqueMate=true;
 
 	}
+//	Método para saber si una figura negra puede moverse a esa casilla------------------------------------------------
 
-//	Obtener atacante------------------------------------------------------------------------------
+	public boolean getMovimiento(int[][] array, int Y, int X) {
+		tablero = array;
+		tableroCambiado = array;
+		coordenadaY = Y;
+		coordenadaX = X;
+		
+//		Dirección al lado blanco línea recta
+		for (int i = coordenadaY - 1; i >= 0; i--) {
+			
+			if (tablero[i][coordenadaX] > 0 || (tablero[i][coordenadaX] == PN && difY > 1)
+					|| tablero[i][coordenadaX] == CN || tablero[i][coordenadaX] == AN
+					|| tablero[coordenadaY][i] == RN) {
+				break;
+
+			} else if (tablero[i][coordenadaX] == TN || tablero[i][coordenadaX] == DN
+					|| tablero[i][coordenadaX] == PN) {
+//				Compruebo si moviendo la figura incurrimos en otro jaque.
+				tableroCambiado[coordenadaY][coordenadaX] = -1;
+				tableroCambiado[i][coordenadaX] = 0;
+				if (!jaque.getJaque(tableroCambiado)) {
+					return movimiento = true;
+				}
+				tableroCambiado = tablero;
+			}
+			difY++;
+		}
+		difY = 1;
+//		Dirección al lado negro línea recta.
+		for (int i = coordenadaY + 1; i <= 7; i++) {
+			if (tablero[i][coordenadaX] > 0 || (tablero[i][coordenadaX] == PN) || tablero[i][coordenadaX] == CN
+					|| tablero[i][coordenadaX] == AN || tablero[coordenadaY][i] == RN) {
+				break;
+			} else if (tablero[i][coordenadaX] == TN || tablero[i][coordenadaX] == DN) {
+
+				tableroCambiado[coordenadaY][coordenadaX] = -1;
+				tableroCambiado[i][coordenadaX] = 0;
+				if (!jaque.getJaqueConRey(tableroCambiado)) {	
+					return movimiento = true;
+				}
+				tableroCambiado = tablero;
+			}
+		}
+
+//		Dirección a izquierda línea recta.
+		for (int i = coordenadaX - 1; i >= 0; i--) {
+			if (tablero[coordenadaY][i] > 0 || tablero[coordenadaY][i] == PN || tablero[coordenadaY][i] == CN
+					|| tablero[coordenadaY][i] == AN || tablero[coordenadaY][i] == RN) {
+				break;
+			} else if (tablero[coordenadaY][i] == TN || tablero[coordenadaY][i] == DN) {
+				tableroCambiado[coordenadaY][coordenadaX] = -1;
+				tableroCambiado[coordenadaY][i] = 0;
+				if (!jaque.getJaque(tableroCambiado)) {
+					return movimiento = true;
+				}
+				tableroCambiado = tablero;
+			}
+		}
+//		Dirección derecha línea recta
+		for (int i = coordenadaX + 1; i <= 7; i++) {
+			if (tablero[coordenadaY][i] > 0 || tablero[coordenadaY][i] == PN || tablero[coordenadaY][i] == CN
+					|| tablero[coordenadaY][i] == AN || tablero[coordenadaY][i] == RN) {
+				break;
+			} else if (tablero[coordenadaY][i] == TN || tablero[coordenadaY][i] == DN) {
+				tableroCambiado[coordenadaY][coordenadaX] = -1;
+				tableroCambiado[coordenadaY][i] = 0;
+				if (!jaque.getJaque(tableroCambiado)) {
+					return movimiento = true;
+				}
+				tableroCambiado = tablero;
+			}
+		}
+//		Diagonal derecha hacia lado blanco 
+		for (int i = coordenadaY - 1; i >= 0; i--) {
+			if ((coordenadaX + difX) <= 7) {
+
+				if (tablero[i][coordenadaX + difX] > 0 || tablero[i][coordenadaX + difX] == TN
+						|| tablero[i][coordenadaX + difX] == CN || tablero[i][coordenadaX + difX] == RN
+						|| tablero[i][coordenadaX + difX] == PN) {
+					break;
+
+				} else if (tablero[i][coordenadaX + difX] == AN || tablero[i][coordenadaX + difX] == DN) {
+					tableroCambiado[coordenadaY][coordenadaX] = -1;
+					tableroCambiado[i][coordenadaX + difX] = 0;
+					if (!jaque.getJaque(tableroCambiado)) {
+						return movimiento = true;
+					}
+					tableroCambiado = tablero;
+				}
+				difX++;
+			}
+		}
+		difX = 1;
+//		Diagonal izquierda hacia lado blanco.
+		for (int i = coordenadaY - 1; i >= 0; i--) {
+			if ((coordenadaX - difX) >= 0) {
+
+				if (tablero[i][coordenadaX - difX] > 0 || tablero[i][coordenadaX - difX] == TN
+						|| tablero[i][coordenadaX - difX] == CN || tablero[i][coordenadaX - difX] == RN
+						|| tablero[i][coordenadaX - difX] == PN) {
+					break;
+
+				} else if (tablero[i][coordenadaX - difX] == AN || tablero[i][coordenadaX - difX] == DN) {
+					tableroCambiado[coordenadaY][coordenadaX] = -1;
+					tableroCambiado[i][coordenadaX - difX] = 0;
+					if (!jaque.getJaque(tableroCambiado)) {
+						return movimiento = true;
+					}
+					tableroCambiado = tablero;
+				}
+				difX++;
+			}
+		}
+		difX = 1;
+
+//		Diagonal derecha hacia lado negro.
+		for (int i = coordenadaY + 1; i <= 7; i++) {
+			if ((coordenadaX + difX) <= 7) {
+
+				if (tablero[i][coordenadaX + difX] > 0 || tablero[i][coordenadaX + difX] == TN
+						|| tablero[i][coordenadaX + difX] == CN || tablero[i][coordenadaX + difX] == RN
+						|| (tablero[i][coordenadaX + difX] == PN && difX > 1)) {
+					break;
+
+				} else if (tablero[i][coordenadaX + difX] == AN || tablero[i][coordenadaX + difX] == DN
+						|| (tablero[i][coordenadaX + difX] == PN && tablero[coordenadaY][coordenadaX] > 0)) {
+					tableroCambiado[coordenadaY][coordenadaX] = -1;
+					tableroCambiado[i][coordenadaX + difX] = 0;
+					if (!jaque.getJaque(tableroCambiado)) {
+						return movimiento = true;
+					}
+					tableroCambiado = tablero;
+				}
+				difX++;
+			}
+		}
+		difX = 1;
+//		Diagonal izquierda hacia lado negro.
+		for (int i = coordenadaY + 1; i <= 7; i++) {
+			if ((coordenadaX - difX) >= 0) {
+
+				if (tablero[i][coordenadaX - difX] > 0 || tablero[i][coordenadaX - difX] == TN
+						|| tablero[i][coordenadaX - difX] == CN || tablero[i][coordenadaX - difX] == RN
+						|| tablero[i][coordenadaX - difX] == PN && difX > 1) {
+					break;
+
+				} else if (tablero[i][coordenadaX - difX] == AN || tablero[i][coordenadaX - difX] == DN
+						|| (tablero[i][coordenadaX - difX] == PN && tablero[coordenadaY][coordenadaX] > 0)) {
+					tableroCambiado[coordenadaY][coordenadaX] = -1;
+					tableroCambiado[i][coordenadaX - difX] = 0;
+					if (!jaque.getJaque(tableroCambiado)) {
+						return movimiento = true;
+					}
+					tableroCambiado = tablero;
+				}
+				difX++;
+			}
+		}
+		difX = 1;
+//		Saltos del caballo
+		for (int i = -2; i <= 2; i++) {
+
+			difY = coordenadaY + i;
+
+			difX = (int) ((Math.sqrt(5 - Math.pow(i, 2))) + coordenadaX);
+			difXN = (int) (-(Math.sqrt(5 - Math.pow(i, 2))) + coordenadaX);
+
+			if (i < 0 && (difY >= 0 && difXN >= 0 && tablero[difY][difXN] == CN
+					|| difY >= 0 && difX <= 7 && tablero[difY][difX] == CN)) {
+				if (tablero[difY][difX] == CN) {
+					tableroCambiado[coordenadaY][coordenadaX] = -1;
+					tableroCambiado[difY][difX] = 0;
+					if (!jaque.getJaque(tableroCambiado)) {
+						return movimiento = true;
+					}
+					tableroCambiado = tablero;
+				} else {
+					tableroCambiado[coordenadaY][coordenadaX] = -1;
+					tableroCambiado[difY][difXN] = 0;
+					if (!jaque.getJaque(tableroCambiado)) {
+						return movimiento = true;
+					}
+					tableroCambiado = tablero;
+				}
+
+			}
+			if (i > 0 && (difY <= 7 && difXN >= 0 && tablero[difY][difXN] == CN
+					|| difY <= 7 && difX <= 7 && tablero[difY][difX] == CN)) {
+
+				if (tablero[difY][difX] == CN) {
+					tableroCambiado[coordenadaY][coordenadaX] = -1;
+					tableroCambiado[difY][difX] = 0;
+					if (!jaque.getJaque(tableroCambiado)) {
+						return movimiento = true;
+					}
+					tableroCambiado = tablero;
+				} else {
+					tableroCambiado[coordenadaY][coordenadaX] = -1;
+					tableroCambiado[difY][difXN] = 0;
+					if (!jaque.getJaque(tableroCambiado)) {
+						return movimiento = true;
+					}
+					tableroCambiado = tablero;
+				}
+
+			}
+		}
+
+		return movimiento=false;
+	}
+//	Obtener atacante----------------------------------sería mejor un método setter--------------------------------------------
 
 	public int[] getJaqueFigura(int[][] array) {
 		tablero = array;
@@ -159,17 +466,17 @@ public class Ejercicio37 {
 				}
 			}
 
-//		diagonal derecha hacia lado blanco (se evalúa que la casilla este dentro del tablero)
+//		Diagonal derecha hacia lado blanco (se evalúa que la casilla este dentro del tablero)
 			for (int i = coordenadaY - 1; i >= 0; i--) {
 				if ((coordenadaX + difX) <= 7) {
 //				Si se encuentra con una figura que no hace jaque
 					if (tablero[i][coordenadaX + difX] < 0 || tablero[i][coordenadaX + difX] == TB
 							|| tablero[i][coordenadaX + difX] == CB || tablero[i][coordenadaX + difX] == RB
-							|| (tablero[i][coordenadaX + difX] == PB && difX > 2)) {
+							|| (tablero[i][coordenadaX + difX] == PB && difX > 1)) {
 						break;
 //					Si se encuentra con una figura que hace jaque
 					} else if (tablero[i][coordenadaX + difX] == AB || tablero[i][coordenadaX + difX] == DB
-							|| (tablero[i][coordenadaX + difX] == PB && difX < 2)) {
+							|| tablero[i][coordenadaX + difX] == PB) {
 						atacante[0] = tablero[i][coordenadaX + difX];
 						atacante[1] = i;
 						atacante[2] = coordenadaX + difX;
@@ -180,17 +487,17 @@ public class Ejercicio37 {
 			}
 			difX = 1;
 
-//		diagonal izquierda hacia lado blanco (se evalúa que la casilla este dentro del tablero)
+//		Diagonal izquierda hacia lado blanco (se evalúa que la casilla este dentro del tablero)
 			for (int i = coordenadaY - 1; i >= 0; i--) {
 				if ((coordenadaX - difX) >= 0) {
 //				Si se encuentra con una figura que no hace jaque
 					if (tablero[i][coordenadaX - difX] < 0 || tablero[i][coordenadaX - difX] == TB
 							|| tablero[i][coordenadaX - difX] == CB || tablero[i][coordenadaX - difX] == RB
-							|| (tablero[i][coordenadaX - difX] == PB && difX > 2)) {
+							|| (tablero[i][coordenadaX - difX] == PB && difX > 1)) {
 						break;
 //					Si se encuentra con una figura que hace jaque
 					} else if (tablero[i][coordenadaX - difX] == AB || tablero[i][coordenadaX - difX] == DB
-							|| (tablero[i][coordenadaX - difX] == PB && difX < 2)) {
+							|| tablero[i][coordenadaX - difX] == PB) {
 						atacante[0] = tablero[i][coordenadaX - difX];
 						atacante[1] = i;
 						atacante[2] = coordenadaX - difX;
