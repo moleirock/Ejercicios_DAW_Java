@@ -1,11 +1,13 @@
 package boletin_6;
 
+
+
 import boletin_6.Ejercicio37;
 import java.util.*;
 
 //36. DUF que toma una tabla bidimensional de enteros, representando un tablero de ajedrez.
-//Disponemos de las constantes PB (peón blanco), TN (torre negra), etc. (P, T, C, A, R, D). Dicho
-//módulo debe devolver un valor booleano, que indique si el rey negro está amenazado.
+//Disponemos de las constantes PB (peÃ³n blanco), TN (torre negra), etc. (P, T, C, A, R, D). Dicho
+//mÃ³dulo debe devolver un valor booleano, que indique si el rey negro estÃ¡ amenazado.
 
 public class Ejercicio36 {
 //	  Figuras y valores  
@@ -22,9 +24,6 @@ public class Ejercicio36 {
 	private final int RN = -5;
 	private final int DN = -6;
 
-	/* Variables de jugada */
-	private boolean jaque = false;
-	private int[][] tablero = new int[8][8]; //posible problema de encapsulamiento
 
 //  Coordenadas del rey negro
 	private int coordenadaY;
@@ -39,9 +38,11 @@ public class Ejercicio36 {
 
 	}
 
-//	Comienzo del método jaque, se base en evaluar si el rey está amenazado, para ello se fija la coordenada 
-//	donde está situado el rey y desde ella se busca figuras rivales simulando su movimiento(el movimiento de las figuras rivales).
+//	Comienzo del mÃ©todo jaque, se base en evaluar si el rey estÃ¡ amenazado, para ello se fija la coordenada 
+//	donde estÃ¡ situado el rey y desde ella se busca figuras rivales simulando su movimiento(el movimiento de las figuras rivales).
 	public boolean getJaque(int[][] array) {
+		boolean jaque = false;
+		int[][] tablero = new int[8][8];
 		tablero = array;
 
 		/* Encontrar al rey y guardar coordenadas */
@@ -55,66 +56,66 @@ public class Ejercicio36 {
 			}
 		}
 		
-//		Dirección al lado blanco línea recta (se evalúa que la casilla este dentro del tablero). Se recorre el array aumentando 
+//		DirecciÃ³n al lado blanco lÃ­nea recta (se evalÃºa que la casilla este dentro del tablero). Se recorre el array aumentando 
 //		o disminuyendo una de sus coordenadas.
 		for (int i = coordenadaY - 1; i >= 0; i--) {
-//			Si se encuentra con una figura que no hace jaque interrumpe y pasa a la siguiente iteración.
+//			Si se encuentra con una figura que no hace jaque interrumpe y pasa a la siguiente iteraciÃ³n.
 			if (tablero[i][coordenadaX] < 0 || tablero[i][coordenadaX] == PB || tablero[i][coordenadaX] == CB
 					|| tablero[i][coordenadaX] == AB || tablero[i][coordenadaX] == RB) {
 				break;
-//				Si se encuentra con una figura que hace jaque, finaliza el método y devuelve verdadero. En este caso sabemos que la 
-//				torre blanca y la dama blanca son las únicas figuras que pueden moverse en línea recta y hacer jaque.
+//				Si se encuentra con una figura que hace jaque, finaliza el mÃ©todo y devuelve verdadero. En este caso sabemos que la 
+//				torre blanca y la dama blanca son las Ãºnicas figuras que pueden moverse en lÃ­nea recta y hacer jaque.
 			} else if (tablero[i][coordenadaX] == TB || tablero[i][coordenadaX] == DB) {
 				return jaque = true;
 			}
 		}
 
-//		Dirección al lado negro línea recta (se evalúa que la casilla este dentro del tablero).
+//		DirecciÃ³n al lado negro lÃ­nea recta (se evalÃºa que la casilla este dentro del tablero).
 		for (int i = coordenadaY + 1; i <= 7; i++) {
-//			Si se encuentra con una figura que no hace jaque interrumpe y pasa a la siguiente iteración.
+//			Si se encuentra con una figura que no hace jaque interrumpe y pasa a la siguiente iteraciÃ³n.
 			if (tablero[i][coordenadaX] < 0 || tablero[i][coordenadaX] == PB || tablero[i][coordenadaX] == CB
 					|| tablero[i][coordenadaX] == AB || tablero[i][coordenadaX] == RB) {
 				break;
-//				Si se encuentra con una figura que hace jaque, finaliza el método y devuelve verdadero. 
+//				Si se encuentra con una figura que hace jaque, finaliza el mÃ©todo y devuelve verdadero. 
 			} else if (tablero[i][coordenadaX] == TB || tablero[i][coordenadaX] == DB) {
 				return jaque = true;
 			}
 		}
 		
-//		Dirección a izquierda línea recta (se evalúa que la casilla este dentro del tablero)
+//		DirecciÃ³n a izquierda lÃ­nea recta (se evalÃºa que la casilla este dentro del tablero)
 		for (int i = coordenadaX - 1; i >= 0; i--) {
-//			Si se encuentra con una figura que no hace jaque interrumpe y pasa a la siguiente iteración.
+//			Si se encuentra con una figura que no hace jaque interrumpe y pasa a la siguiente iteraciÃ³n.
 			if (tablero[coordenadaY][i] < 0 || tablero[coordenadaY][i] == PB || tablero[coordenadaY][i] == CB
 					|| tablero[coordenadaY][i] == AB || tablero[coordenadaY][i] == RB) {
 				break;
-//				Si se encuentra con una figura que hace jaque, finaliza el método y devuelve verdadero. 
+//				Si se encuentra con una figura que hace jaque, finaliza el mÃ©todo y devuelve verdadero. 
 			} else if (tablero[coordenadaY][i] == TB || tablero[coordenadaY][i] == DB) {
 				return jaque = true;
 			}
 		}
-//		Dirección derecha línea recta (se evalúa que la casilla este dentro del tablero)
+//		DirecciÃ³n derecha lÃ­nea recta (se evalÃºa que la casilla este dentro del tablero)
 		for (int i = coordenadaX + 1; i <= 7; i++) {
-//			Si se encuentra con una figura que no hace jaque interrumpe y pasa a la siguiente iteración.
+//			Si se encuentra con una figura que no hace jaque interrumpe y pasa a la siguiente iteraciÃ³n.
 			if (tablero[coordenadaY][i] < 0 || tablero[coordenadaY][i] == PB || tablero[coordenadaY][i] == CB
 					|| tablero[coordenadaY][i] == AB || tablero[coordenadaY][i] == RB) {
 				break;
-//				Si se encuentra con una figura que hace jaque, finaliza el método y devuelve verdadero. 
+//				Si se encuentra con una figura que hace jaque, finaliza el mÃ©todo y devuelve verdadero. 
 			} else if (tablero[coordenadaY][i] == TB || tablero[coordenadaY][i] == DB) {
 				return jaque = true;
 			}
 		}
 
-//		Diagonal derecha hacia lado blanco (se evalúa que la casilla este dentro del tablero). Se recorre el array aumentando 
+//		Diagonal derecha hacia lado blanco (se evalÃºa que la casilla este dentro del tablero). Se recorre el array aumentando 
 //		o disminuyendo las dos coordenadas.
 		for (int i = coordenadaY - 1; i >= 0; i--) {
 			if ((coordenadaX + difX) <= 7) {
-//			Si se encuentra con una figura que no hace jaque interrumpe y pasa a la siguiente iteración.
+//			Si se encuentra con una figura que no hace jaque interrumpe y pasa a la siguiente iteraciÃ³n.
 				if (tablero[i][coordenadaX + difX] < 0 || tablero[i][coordenadaX + difX] == TB
 						|| tablero[i][coordenadaX + difX] == CB || tablero[i][coordenadaX + difX] == RB
 						|| (tablero[i][coordenadaX + difX] == PB && difX > 1)) {
 					break;
-//					Si se encuentra con una figura que hace jaque, finaliza el método y devuelve verdadero. En este caso las 
-//					figuras que hacen jaque son las que se mueven en diagonal, un caso especial es el peón que solo hace jaque si está en una casilla adyacente en diagonal hacia el lado blanco.
+//					Si se encuentra con una figura que hace jaque, finaliza el mÃ©todo y devuelve verdadero. En este caso las 
+//					figuras que hacen jaque son las que se mueven en diagonal, un caso especial es el peÃ³n que solo hace jaque si estÃ¡ en una casilla adyacente en diagonal hacia el lado blanco.
 				} else if (tablero[i][coordenadaX + difX] == AB || tablero[i][coordenadaX + difX] == DB
 						|| tablero[i][coordenadaX + difX] == PB) {
 					return jaque = true;
@@ -124,15 +125,15 @@ public class Ejercicio36 {
 		}
 		difX = 1;
 
-//		Diagonal izquierda hacia lado blanco (se evalúa que la casilla este dentro del tablero).
+//		Diagonal izquierda hacia lado blanco (se evalÃºa que la casilla este dentro del tablero).
 		for (int i = coordenadaY - 1; i >= 0; i--) {
 			if ((coordenadaX - difX) >= 0) {
-//			Si se encuentra con una figura que no hace jaque interrumpe y pasa a la siguiente iteración.
+//			Si se encuentra con una figura que no hace jaque interrumpe y pasa a la siguiente iteraciÃ³n.
 				if (tablero[i][coordenadaX - difX] < 0 || tablero[i][coordenadaX - difX] == TB
 						|| tablero[i][coordenadaX - difX] == CB || tablero[i][coordenadaX - difX] == RB
 						|| (tablero[i][coordenadaX - difX] == PB && difX > 1)) {
 					break;
-//					Si se encuentra con una figura que hace jaque, finaliza el método y devuelve verdadero. 
+//					Si se encuentra con una figura que hace jaque, finaliza el mÃ©todo y devuelve verdadero. 
 				} else if (tablero[i][coordenadaX - difX] == AB || tablero[i][coordenadaX - difX] == DB
 						|| tablero[i][coordenadaX - difX] == PB ) {
 					return jaque = true;
@@ -142,15 +143,15 @@ public class Ejercicio36 {
 		}
 		difX = 1;
 
-//		Diagonal derecha hacia lado negro (se evalúa que la casilla este dentro del tablero).
+//		Diagonal derecha hacia lado negro (se evalÃºa que la casilla este dentro del tablero).
 		for (int i = coordenadaY + 1; i <= 7; i++) {
 			if ((coordenadaX + difX) <= 7) {
-//			Si se encuentra con una figura que no hace jaque interrumpe y pasa a la siguiente iteración.
+//			Si se encuentra con una figura que no hace jaque interrumpe y pasa a la siguiente iteraciÃ³n.
 				if (tablero[i][coordenadaX + difX] < 0 || tablero[i][coordenadaX + difX] == TB
 						|| tablero[i][coordenadaX + difX] == CB || tablero[i][coordenadaX + difX] == RB
 						|| tablero[i][coordenadaX + difX] == PB) {
 					break;
-//					Si se encuentra con una figura que hace jaque, finaliza el método y devuelve verdadero. 
+//					Si se encuentra con una figura que hace jaque, finaliza el mÃ©todo y devuelve verdadero. 
 				} else if (tablero[i][coordenadaX + difX] == AB || tablero[i][coordenadaX + difX] == DB) {
 					return jaque = true;
 				}
@@ -159,15 +160,15 @@ public class Ejercicio36 {
 		}
 		difX = 1;
 
-//		Diagonal izquierda hacia lado negro (se evalúa que la casilla este dentro del tablero).
+//		Diagonal izquierda hacia lado negro (se evalÃºa que la casilla este dentro del tablero).
 		for (int i = coordenadaY + 1; i <= 7; i++) {
 			if ((coordenadaX - difX) >= 0) {
-//			Si se encuentra con una figura que no hace jaque interrumpe y pasa a la siguiente iteración.
+//			Si se encuentra con una figura que no hace jaque interrumpe y pasa a la siguiente iteraciÃ³n.
 				if (tablero[i][coordenadaX - difX] < 0 || tablero[i][coordenadaX - difX] == TB
 						|| tablero[i][coordenadaX - difX] == CB || tablero[i][coordenadaX - difX] == RB
 						|| tablero[i][coordenadaX - difX] == PB) {
 					break;
-//					Si se encuentra con una figura que hace jaque, finaliza el método y devuelve verdadero. 
+//					Si se encuentra con una figura que hace jaque, finaliza el mÃ©todo y devuelve verdadero. 
 				} else if (tablero[i][coordenadaX - difX] == AB || tablero[i][coordenadaX - difX] == DB) {
 					return jaque = true;
 				}
@@ -180,16 +181,16 @@ public class Ejercicio36 {
 //		(por ejemplo si la coordenadaY aumenta en 2, la coordenadaX aumenta o disminuye en 1).
 		for (int i = -2; i <= 2; i++) {
 
-//			Se toma i como incremento de la coordenadaY y se calcula la coordenadaX en funcíon de los valores que puede tomar.
+//			Se toma i como incremento de la coordenadaY y se calcula la coordenadaX en funcÃ­on de los valores que puede tomar.
 			difY = coordenadaY + i;
 
-//			Ecuación de la circunferencia(semicircunferencia)(pitágoras) se declarán dos variables para cada mitad de la circunferencia. (radio^2=5)
-//			En la ecuación de la circunferencia hay que restar a la coordenada Y del punto la coordenada Y del centro de la circunferencia pero nosotros 
+//			EcuaciÃ³n de la circunferencia(semicircunferencia)(pitÃ¡goras) se declarÃ¡n dos variables para cada mitad de la circunferencia. (radio^2=5)
+//			En la ecuaciÃ³n de la circunferencia hay que restar a la coordenada Y del punto la coordenada Y del centro de la circunferencia pero nosotros 
 //			ya tenemos hecho ese calculo que es lo que nos da i(i=difY - coordenadaY).
 			difX = (int) ((Math.sqrt(5 - Math.pow(i, 2))) + coordenadaX);
 			difXN = (int) (-(Math.sqrt(5 - Math.pow(i, 2))) + coordenadaX);
 
-//			Cada condicion representa una mitad de la circunferencia( se evalúa que la casilla este dentro del tablero).
+//			Cada condicion representa una mitad de la circunferencia( se evalÃºa que la casilla este dentro del tablero).
 			if (i < 0 && (difY >= 0 && difXN >= 0 && tablero[difY][difXN] == CB
 					|| difY >= 0 && difX <= 7 && tablero[difY][difX] == CB)) {
 				return jaque = true;
@@ -202,7 +203,7 @@ public class Ejercicio36 {
 			}
 		}
 
-		return jaque=false;
+		return jaque;
 	}
 
 	public static void main(String args[]) {
@@ -210,7 +211,7 @@ public class Ejercicio36 {
 //		Instancia
 		Ejercicio36 juego = new Ejercicio36();
 
-//		Añadiendo posición y figura que hace jaque, Instancio un objeto de la clase "Ejercicio37" para probar el método de obtención del  tipo y posición 
+//		AÃ±adiendo posiciÃ³n y figura que hace jaque, Instancio un objeto de la clase "Ejercicio37" para probar el mÃ©todo de obtenciÃ³n del  tipo y posiciÃ³n 
 //		de lafigura que hace jaque (getJaqueFigura).
 		Ejercicio37 mate = new Ejercicio37();
 		int[] figuraAtacante = new int[3];
@@ -223,44 +224,53 @@ public class Ejercicio36 {
 		int[][] tablero = new int[8][8];
 		
 		
-		
 
-//		Texto con instrucciónes para el desarrollo del juego.
+//		Texto con instrucciÃ³nes para el desarrollo del juego.
+		
 		System.out.println("---------------------------------------------------------------------------------------");
-		System.out.println("\t\t\t¿Está en jaque nuestro amado rey negro?");
+		System.out.println("\t\t\tÂ¿EstÃ¡ en jaque nuestro amado rey negro? ");
 		System.out.println("---------------------------------------------------------------------------------------");
 		System.out.println("Coloca las figuras en nuestro tablero virtual, para ello debes de indicar las coordenadas\n"
-				+ "donde están colocadas y que figura está colocada en dicha coordenada.\n\n"
-				+ "Para ello toma como origen de coordenadas(0,0) la casilla dónde coloca el jugador blanco,al principio \n"
+				+ "donde estÃ¡n colocadas y que figura estÃ¡ colocada en dicha coordenada.\n\n"
+				+ "Para ello toma como origen de coordenadas(0,0) la casilla dÃ³nde coloca el jugador blanco,al principio \n"
 				+ "de la partida, su torre del lado derecho.\n\n"
-				+ "Indícame con valores de que figura se trata, ayúdate de esta tabla para identificar la \n"
-				+ "figura. ¡No te olvides de incluir al rey negro!\n\n" + "Peón Blanco = 1\n" + "Torre Blanca = 2\n"
+				+ "IndÃ­came con valores de que figura se trata, ayÃºdate de esta tabla para identificar la \n"
+				+ "figura. Â¡No te olvides de incluir al rey negro!\n\n" + "PeÃ³n Blanco = 1\n" + "Torre Blanca = 2\n"
 				+ "Caballo Blanco = 3\n" + "Alfil Blanco = 4\r\n" + "Rey Blanco = 5\n" + "Dama Blanca = 6\n"
-				+ "Peón Negro = -1\n" + "Torre Negra = -2\n" + "Caballo Negro = -3\n" + "Alfil Negro = -4\n"
+				+ "PeÃ³n Negro = -1\n" + "Torre Negra = -2\n" + "Caballo Negro = -3\n" + "Alfil Negro = -4\n"
 				+ "Rey Negro = -5\n"
 				+ "Dama Negra = -6\n---------------------------------------------------------------------------------------");
 
+//		Pruebas estÃ¡ticas, comentar antes la inserciÃ³n de datos por teclado
+//		tablero[7][6]=-5;
+//		tablero[7][7]=-1;
+//		tablero[4][3]=4;
+//		tablero[7][5]=-1;
+//		tablero[6][2]=2;
+//		tablero[7][2]=2;
+//		tablero[3][4]=-2;
+		
+		
 		while (confirmacion.equalsIgnoreCase("s")) {
 			System.out.println("Introduce la coordenada 'Y' y la coordenada 'X', en ese orden.");
 			y = sc.nextInt();
-			x = sc.nextInt();
-
+			x = sc.nextInt();					
 			while (y < 0 || y > 7 || x < 0 || x > 7) {
 				System.out.println(
-						"Recuerda que las coordenadas tienen que ser números enteros entre 0 y 7, introduclos de\nnuevo en el mismo orden");
+						"Recuerda que las coordenadas tienen que ser nÃºmeros enteros entre 0 y 7, introduclos de\nnuevo en el mismo orden");
 				y = sc.nextInt();
 				x = sc.nextInt();
 			}
-			System.out.println("Introduce el valor de la figura que está en esta coordenada");
+			System.out.println("Introduce el valor de la figura que estÃ¡ en esta coordenada");
 			tablero[y][x] = sc.nextInt();
 
 			while (tablero[y][x] < -6 || tablero[y][x] > 6) {
-				System.out.println("No es un valor válido, introducelo de nuevo");
+				System.out.println("No es un valor vÃ¡lido, introducelo de nuevo");
 				tablero[y][x] = sc.nextInt();
 			}
 
 //			Imprimir tablero
-			System.out.println("\nEl tablero queda así.\n");
+			System.out.println("\nEl tablero queda asÃ­.\n");
 			System.out
 					.println("---------------------------------\n\t    Lado Blanco\n---------------------------------");
 			for (int i = 0; i < 8; i++) {
@@ -273,33 +283,35 @@ public class Ejercicio36 {
 			}
 			System.out.println("\t    Lado Negro\n---------------------------------\n");
 
-			System.out.println("¿Quieres añadir una nueva figura? Responde sí(S) o no(N).");
+			System.out.println("Â¿Quieres aÃ±adir una nueva figura? Responde sÃ­(S) o no(N).");
 			confirmacion = sc.next();
 			while (!confirmacion.equalsIgnoreCase("s") && !confirmacion.equalsIgnoreCase("n")) {
 				System.out.println("Responde (S) o (N).");
 				confirmacion = sc.next();
 			}
-		}
+	     }
 
 		figuraAtacante = mate.getJaqueFigura(tablero);
 		System.out.println(juego.getJaque(tablero)
-				? "¡Nuestro rey está amenazado, haz algo para evitar el jaque!" + "la figura es " + figuraAtacante[0]
-						+ " y está en la posición " + figuraAtacante[1] + "," + figuraAtacante[2]
-				: "¡Nuestro rey está seguro, larga vida al rey!");
+				? "Â¡Nuestro rey estÃ¡ amenazado, haz algo para evitar el jaque!" + "la figura es " + figuraAtacante[0]
+						+ " y estÃ¡ en la posiciÃ³n " + figuraAtacante[1] + "," + figuraAtacante[2]
+				: "Â¡Nuestro rey estÃ¡ seguro, larga vida al rey!");
 		
 		
 		
 		
 //		PROBANDO JAQUE MATE EJERCICIO 37
-		
-		System.out.println(mate.getJaqueMate(tablero));
+		System.out.println(mate.getJaqueMate(tablero)?"Es jaque mate, fin de la partida":"El jaque NO es mate, aÃºn hay esperanza ");
 		
 		sc.close();
 	}
+
 //--------------------------------------------------------------------------------------------------------------------------
-//	Método de jaque incluyendo la figura del rey como posible figura que hace jaque para usarla en el Ejercicio37. Se limpia 
-//	el código para que no sea tan extenso pero el método es igual a getJaque(con una variación).
+//	MÃ©todo de jaque incluyendo la figura del rey como posible figura que hace jaque para usarla en el Ejercicio37. Se limpia 
+//	el cÃ³digo para que no sea tan extenso pero el mÃ©todo es igual a getJaque(con una variaciÃ³n).
 	public boolean getJaqueConRey(int[][] array) {
+		boolean jaque = false;
+		int[][] tablero = new int[8][8];
 		tablero = array;
 		
 		for (int i = 0; i <= 7; i++) {
@@ -313,7 +325,7 @@ public class Ejercicio36 {
 		}
 		
 		
-//		Dirección al lado blanco línea recta
+//		DirecciÃ³n al lado blanco lÃ­nea recta
 		for (int i = coordenadaY - 1; i >= 0; i--) {
 
 			if (tablero[i][coordenadaX] < 0 || tablero[i][coordenadaX] == PB || tablero[i][coordenadaX] == CB
@@ -327,7 +339,7 @@ public class Ejercicio36 {
 			difX++;
 		}
 		difX = 1;
-//		Dirección al lado negro línea recta (se evalúa que la casilla este dentro del tablero).
+//		DirecciÃ³n al lado negro lÃ­nea recta (se evalÃºa que la casilla este dentro del tablero).
 		for (int i = coordenadaY + 1; i <= 7; i++) {
 
 			if (tablero[i][coordenadaX] < 0 || tablero[i][coordenadaX] == PB || tablero[i][coordenadaX] == CB
@@ -341,7 +353,7 @@ public class Ejercicio36 {
 		}
 		difX = 1;
 
-//		Dirección a izquierda línea recta (se evalúa que la casilla este dentro del tablero)
+//		DirecciÃ³n a izquierda lÃ­nea recta (se evalÃºa que la casilla este dentro del tablero)
 		for (int i = coordenadaX - 1; i >= 0; i--) {
 			if (tablero[coordenadaY][i] < 0 || tablero[coordenadaY][i] == PB || tablero[coordenadaY][i] == CB
 					|| tablero[coordenadaY][i] == AB || (tablero[coordenadaY][i] == RB && difX > 1)) {
@@ -354,7 +366,7 @@ public class Ejercicio36 {
 			difX++;
 		}
 		difX = 1;
-//		Dirección derecha línea recta (se evalúa que la casilla este dentro del tablero)
+//		DirecciÃ³n derecha lÃ­nea recta (se evalÃºa que la casilla este dentro del tablero)
 		for (int i = coordenadaX + 1; i <= 7; i++) {
 			if (tablero[coordenadaY][i] < 0 || tablero[coordenadaY][i] == PB || tablero[coordenadaY][i] == CB
 					|| tablero[coordenadaY][i] == AB || (tablero[coordenadaY][i] == RB && difX > 1)) {
@@ -398,7 +410,7 @@ public class Ejercicio36 {
 		}
 		difX = 1;
 		
-//		Diagonal derecha hacia lado negro (se evalúa que la casilla este dentro del tablero).
+//		Diagonal derecha hacia lado negro (se evalÃºa que la casilla este dentro del tablero).
 		for (int i = coordenadaY + 1; i <= 7; i++) {
 			if ((coordenadaX + difX) <= 7) {
 				if (tablero[i][coordenadaX + difX] < 0 || tablero[i][coordenadaX + difX] == TB
@@ -414,7 +426,7 @@ public class Ejercicio36 {
 		}
 		difX = 1;
 		
-//		Diagonal izquierda hacia lado negro (se evalúa que la casilla este dentro del tablero).
+//		Diagonal izquierda hacia lado negro (se evalÃºa que la casilla este dentro del tablero).
 		for (int i = coordenadaY + 1; i <= 7; i++) {
 			if ((coordenadaX - difX) >= 0) {
 				if (tablero[i][coordenadaX - difX] < 0 || tablero[i][coordenadaX - difX] == TB
@@ -450,7 +462,9 @@ public class Ejercicio36 {
 			}
 		}
 		
-		return jaque=false;
+		return jaque;
 	}
 
+//	--------------------------------------------------------------------------------------------------------------------
+//	MÃ©todo para traducir los cÃ³digos de las figuras en caracteres unicode
 }

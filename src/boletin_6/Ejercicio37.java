@@ -17,14 +17,6 @@ public class Ejercicio37 {
 	private final int RN = -5;
 	private final int DN = -6;
 
-	/* Variables de jugada */
-	private boolean movimiento = false;
-	private boolean jaqueMate = true;
-	private int[][] tablero = new int[8][8];
-	private int[][] tableroCambiado = new int[8][8];
-
-//  Variables para calcular la posición y el tipo de la figura atacante.
-	private int[] atacante = new int[3];
 
 //  Coordenadas del rey negro
 	private int coordenadaY;
@@ -42,12 +34,17 @@ public class Ejercicio37 {
 
 
 	public boolean getJaqueMate(int[][] array) {
+//		Declaración de variables
+		int[] atacante = new int[3];
+		int[][] tableroCambiado = new int[8][8];
+		int[][] tablero = new int[8][8];
+		boolean jaqueMate = true;
 		tablero = array;
 		tableroCambiado = array;
-
+		
 //		Comprobamos primero si está en jaque
 		if (jaque.getJaque(tablero)) {
-
+			
 //			Guardar figura y posicíon del atacante, [figura,y,x]
 			atacante = this.getJaqueFigura(array);
 
@@ -72,15 +69,15 @@ public class Ejercicio37 {
 						tableroCambiado[coordenadaY][coordenadaX] = 0;
 						tableroCambiado[coordenadaY + i][coordenadaX + j] = -5;
 						
-						if (!jaque.getJaqueConRey(tableroCambiado)) {	
+						if (!jaque.getJaqueConRey(tableroCambiado)) {
+							
 							return jaqueMate = false;
 							
 						}
-//						Reinicio el tableroCambiado para poder recrear más movimientos en las siguientes iteraciones.(NO SE REINICIA POR ALGUNA RAZÓN)
+//						Reinicio el tableroCambiado para poder recrear más movimientos en las siguientes iteraciones.
 						tableroCambiado[coordenadaY][coordenadaX] = -5;
-						tableroCambiado[coordenadaY + i][coordenadaX + j] = -0;
-						
-//						tableroCambiado = tablero;
+						tableroCambiado[coordenadaY + i][coordenadaX + j] = 0;
+//						tableroCambiado = tablero; Esta sentencia no reinicia el tablero, y no sé porque
 
 					}
 				}
@@ -111,8 +108,9 @@ public class Ejercicio37 {
 			}
 //			Atacante situado izquierda en línea recta.
 			if (coordenadaY == atacante[1] && coordenadaX > atacante[2]) {
-				for (int i = coordenadaX - 1; i >= atacante[1]; i--) {
-
+				
+				for (int i = coordenadaX - 1; i >= atacante[2]; i--) {
+					
 					if (this.getMovimiento(tablero, coordenadaY, i)) {
 						return jaqueMate = false;
 					}
@@ -176,13 +174,17 @@ public class Ejercicio37 {
 				return jaqueMate = false;
 			}
 
+			return jaqueMate;
 		}
-		return jaqueMate=true;
-
+//		Devuelve jaqueMate=false ya que no entrá en la primara condiciíon del método, osea que no está en jaque
+		return jaqueMate=false;
 	}
 //	Método para saber si una figura negra puede moverse a esa casilla------------------------------------------------
 
 	public boolean getMovimiento(int[][] array, int Y, int X) {
+		boolean movimiento = false;
+		int[][] tableroCambiado = new int[8][8];
+		int[][] tablero = new int[8][8];
 		tablero = array;
 		tableroCambiado = array;
 		coordenadaY = Y;
@@ -389,11 +391,14 @@ public class Ejercicio37 {
 			}
 		}
 
-		return movimiento=false;
+		return movimiento;
 	}
 //	Obtener atacante----------------------------------sería mejor un método setter--------------------------------------------
 
 	public int[] getJaqueFigura(int[][] array) {
+//		Declaración de variables
+		int[] atacante = new int[3];
+		int[][] tablero = new int[8][8];
 		tablero = array;
 		if (jaque.getJaque(tablero)) {
 			/* Encontrar al rey */
