@@ -1,6 +1,5 @@
 package boletin_6;
 
-import boletin_6.Ejercicio36;
 
 public class Ejercicio37 {
 	/* Figuras y valores */

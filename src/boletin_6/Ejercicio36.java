@@ -1,8 +1,5 @@
 package boletin_6;
 
-
-
-import boletin_6.Ejercicio37;
 import java.util.*;
 
 //36. DUF que toma una tabla bidimensional de enteros, representando un tablero de ajedrez.
@@ -235,11 +232,11 @@ public class Ejercicio36 {
 				+ "Para ello toma como origen de coordenadas(0,0) la casilla dónde coloca el jugador blanco,al principio \n"
 				+ "de la partida, su torre del lado derecho.\n\n"
 				+ "Indícame con valores de que figura se trata, ayúdate de esta tabla para identificar la \n"
-				+ "figura. ¡No te olvides de incluir al rey negro!\n\n" + "Peón Blanco = 1\n" + "Torre Blanca = 2\n"
-				+ "Caballo Blanco = 3\n" + "Alfil Blanco = 4\r\n" + "Rey Blanco = 5\n" + "Dama Blanca = 6\n"
-				+ "Peón Negro = -1\n" + "Torre Negra = -2\n" + "Caballo Negro = -3\n" + "Alfil Negro = -4\n"
-				+ "Rey Negro = -5\n"
-				+ "Dama Negra = -6\n---------------------------------------------------------------------------------------");
+				+ "figura. ¡No te olvides de incluir al rey negro!\n\n" + "Peón Blanco = 1 \u2659\n" + "Torre Blanca = 2 \u2656\n"
+				+ "Caballo Blanco = 3 \u2658\n" + "Alfil Blanco = 4 \u2657\r\n" + "Rey Blanco = 5 \u2654 \n" + "Dama Blanca = 6 \u2655\n"
+				+ "Peón Negro = -1 \u265F\n" + "Torre Negra = -2 \u265C\n" + "Caballo Negro = -3 \u265E\n" + "Alfil Negro = -4 \u265D\n"
+				+ "Rey Negro = -5 \u265A\n"
+				+ "Dama Negra = -6 \u265B\n---------------------------------------------------------------------------------------");
 
 //		Pruebas estáticas, comentar antes la inserción de datos por teclado
 //		tablero[7][6]=-5;
@@ -276,7 +273,7 @@ public class Ejercicio36 {
 			for (int i = 0; i < 8; i++) {
 				System.out.print("| ");
 				for (int j = 0; j < 8; j++) {
-					System.out.print(tablero[i][j] + " | ");
+					System.out.print(figura.convierteFigura(tablero[i][j])+" | ");
 				}
 
 				System.out.println("\n---------------------------------");
@@ -293,7 +290,7 @@ public class Ejercicio36 {
 
 		figuraAtacante = mate.getJaqueFigura(tablero);
 		System.out.println(juego.getJaque(tablero)
-				? "¡Nuestro rey está amenazado, haz algo para evitar el jaque!" + "la figura es " + figuraAtacante[0]
+				? "¡Nuestro rey está amenazado, haz algo para evitar el jaque!" + "la figura es " + figura.convierteFigura(figuraAtacante[0])
 						+ " y está en la posición " + figuraAtacante[1] + "," + figuraAtacante[2]
 				: "¡Nuestro rey está seguro, larga vida al rey!");
 		
