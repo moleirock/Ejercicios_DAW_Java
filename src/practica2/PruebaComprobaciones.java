@@ -1,5 +1,7 @@
 package practica2;
 
+import practica2.Alimento.Niveles;
+
 public class PruebaComprobaciones {
 
 	public static void main(String[] args) {
@@ -14,6 +16,9 @@ public class PruebaComprobaciones {
 		System.out.println(Comprobaciones.esPositivo(2));
 		System.out.println(Comprobaciones.esBisiesto(1800));
 
+		
+		
+		
 		
 	}
 
