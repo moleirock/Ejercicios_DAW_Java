@@ -31,9 +31,6 @@ public class Ejercicio36 {
 	private int difX = 1;
 	private int difXN = 1;
 
-	Ejercicio36() {
-
-	}
 
 //	Comienzo del método jaque, se base en evaluar si el rey está amenazado, para ello se fija la coordenada 
 //	donde está situado el rey y desde ella se busca figuras rivales simulando su movimiento(el movimiento de las figuras rivales).
