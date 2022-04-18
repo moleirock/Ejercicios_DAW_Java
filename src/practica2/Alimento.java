@@ -14,6 +14,9 @@ public class Alimento {
 		private Niveles(String abreviatura) {
 			this.abreviatura=abreviatura;
 		}
+		public String getAbreviatura() {
+			return abreviatura;
+		}
 		}
 	
 	

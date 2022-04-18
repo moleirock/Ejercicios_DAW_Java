@@ -1,6 +1,5 @@
 package practica2;
 
-import practica2.Alimento.Niveles;
 
 public class PruebaComprobaciones {
 
